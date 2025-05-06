@@ -94,8 +94,8 @@ public class BasicGameApp implements Runnable, KeyListener {
         }
 
         for (int i = 0; i < BadGuys.length; i = i + 1) {
-            int randomBadXPOS = (int) (Math.random() * 999);
-            int randomBadYPOS = (int) (Math.random() * 700);
+            int randomBadXPOS = (int) (Math.random() * 500);
+            int randomBadYPOS = (int) (Math.random() * 500);
             BadGuys[i] = new BadGuy(randomBadXPOS, randomBadYPOS);
         }
         for (int i = 0; i < BadGuys.length; i = i + 1) {
@@ -110,7 +110,7 @@ public class BasicGameApp implements Runnable, KeyListener {
 
 
 //*******************************************************************************
-//User Method Section\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//User Method Section\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 //
 // put your code to do things here.
@@ -297,17 +297,8 @@ public class BasicGameApp implements Runnable, KeyListener {
                 System.out.println("perslope: " + perslope);
 
 
-                double checkForFillX = trail[i].xpos;
-                double checkForFillY = trail[i].ypos;
 
-                // all this goes in a while loop to check and "break" if hit end of screen
-                checkForFillX = checkForFillX + (1 / (-1 * run));
-                checkForFillY = checkForFillY + (1 / (-1 * rise));
-
-                if (checkForFillX <= 0) {
-                    System.out.println("The bullet has hit the end of screen");
-                }
-
+            
             }
 //                if (mainBlock.xpos > mainBlock.xposOld) { // Moving right
 //                    if (mainBlock.ypos > mainBlock.yposOld) { // Moving down
