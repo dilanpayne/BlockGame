@@ -30,13 +30,13 @@ public class BadGuy {
 
     } // constructor
 // Method to update the BadGuy's position based on a target
-    public void BadMove(int MBXpos, int MBYpos) {
+    public void badMove(int mBXpos, int mBYpos) {
 
-        if (xpos < MBXpos) {
+        if (xpos < mBXpos) {
             dx = Math.abs(dx);
         } // move right if target is to right
 
-        else if (xpos >= MBXpos) {
+        else if (xpos >= mBXpos) {
             dx = -1 * Math.abs(dx);
         } // move left if target is to left
 
@@ -48,11 +48,11 @@ public class BadGuy {
             dx = -dx;
         } // right/left bounce
 
-        if (ypos < MBYpos) {
+        if (ypos < mBYpos) {
             dy = Math.abs(dy);
         } // Move down if target is below
 
-        else if (ypos >= MBYpos) {
+        else if (ypos >= mBYpos) {
             dy = -1 * Math.abs(dy);
         } // Move up if target is above
 

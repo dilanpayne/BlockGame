@@ -8,14 +8,12 @@
 //import java.awt.Canvas;
 
 //Graphics Libraries
-import org.w3c.dom.css.RGBColor;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,7 +26,7 @@ public class BasicGameApp implements Runnable, KeyListener {
     //Declare the variables used in the program
 
     Image backgroundPic; // Declares "backgroundPic" as an Image
-    Image StartScreen; // Declares "startScreen" as an Image
+    Image startScreen; // Declares "startScreen" as an Image
 
     //Sets the width and height of the program window
     final int WIDTH = 1000;
@@ -36,8 +34,8 @@ public class BasicGameApp implements Runnable, KeyListener {
 
     // step 1 of creating an array
     public BlueBlock[] trail; // Array to store player movement trail
-    public BadGuy[] BadGuys; // Array to store enemy objects
-    Coin Coin1;
+    public BadGuy[] badGuys; // Array to store enemy objects
+    Coin coin1;
     int blockNum = 0; // Index for trail array
     int score = 0; // Score counter
 
@@ -73,8 +71,8 @@ public class BasicGameApp implements Runnable, KeyListener {
         new Thread(ex).start();  //creates a threads & starts up the code in the run( ) method
     }
 
-    public SoundFile LoseSound; // Sound to play when the player loses
-    public SoundFile CoinSound; // Sound to play when the player loses
+    public SoundFile loseSound; // Sound to play when the player loses
+    public SoundFile coinSound; // Sound to play when the player loses
 
 
     // This section is the setup portion of the program
@@ -86,7 +84,7 @@ public class BasicGameApp implements Runnable, KeyListener {
         pic = Toolkit.getDefaultToolkit().getImage("BlueBlock.png"); // Load player image
 
         backgroundPic = Toolkit.getDefaultToolkit().getImage("YellowBackground.png"); // Retrieves the backgroundPic declared as a variable above
-        StartScreen = Toolkit.getDefaultToolkit().getImage("StartScreen.jpg"); // Retrieves the backgroundPic declared as a variable above
+        startScreen = Toolkit.getDefaultToolkit().getImage("StartScreen.jpg"); // Retrieves the backgroundPic declared as a variable above
 
         //variable and objects
         //create (construct) the objects needed for the game
@@ -96,12 +94,12 @@ public class BasicGameApp implements Runnable, KeyListener {
 
         mainBlock = new BlueBlock(randomMainXPOS, randomMainYPOS, 0, 0); // Creates main block at a random position
         trail = new BlueBlock[10000]; // Large array to track player's trail
-        BadGuys = new BadGuy[2]; // Create 2 enemies
+        badGuys = new BadGuy[2]; // Create 2 enemies
 
         int newrandomCoinXPos = (int) (Math.random() * 950); // create a coin
         int newrandomCoinYpos = (int) (Math.random() * 650);
-        Coin1 = new Coin(newrandomCoinXPos, newrandomCoinYpos);
-        Coin1.pic = Toolkit.getDefaultToolkit().getImage("coin.png");
+        coin1 = new Coin(newrandomCoinXPos, newrandomCoinYpos);
+        coin1.pic = Toolkit.getDefaultToolkit().getImage("coin.png");
 
 
 // Fill in trail with BlueBlocks off screen initially
@@ -110,22 +108,22 @@ public class BasicGameApp implements Runnable, KeyListener {
         }
 
         // Define position of BadGuys at random position
-        for (int i = 0; i < BadGuys.length; i = i + 1) {
+        for (int i = 0; i < badGuys.length; i = i + 1) {
             int randomBadXPOS = (int) (Math.random() * 999);
             int randomBadYPOS = (int) (Math.random() * 700);
-            BadGuys[i] = new BadGuy(randomBadXPOS, randomBadYPOS);
+            badGuys[i] = new BadGuy(randomBadXPOS, randomBadYPOS);
         }
 
         // Render image for each BadGuy
-        for (int i = 0; i < BadGuys.length; i = i + 1) {
-            BadGuys[i].pic = Toolkit.getDefaultToolkit().getImage("BadGuy.png");
+        for (int i = 0; i < badGuys.length; i = i + 1) {
+            badGuys[i].pic = Toolkit.getDefaultToolkit().getImage("BadGuy.png");
         }
 
         // Render image for main block
         mainBlock.pic = Toolkit.getDefaultToolkit().getImage("BlueBlock.png");
 
-        LoseSound = new SoundFile("Junk Crash 03.wav"); // Load losing sound effect
-        CoinSound = new SoundFile("Bell 01.wav"); // Load losing sound effect
+        loseSound = new SoundFile("Junk Crash 03.wav"); // Load losing sound effect
+        coinSound = new SoundFile("Bell 01.wav"); // Load losing sound effect
 
 
     } // end BasicGameApp constructor
@@ -148,30 +146,30 @@ public class BasicGameApp implements Runnable, KeyListener {
                 }
 
                 // Move each BadGuy toward main block
-                for (int i = 0; i < BadGuys.length; i++) {
-                    BadGuys[i].BadMove(mainBlock.xpos, mainBlock.ypos);
+                for (int i = 0; i < badGuys.length; i++) {
+                    badGuys[i].badMove(mainBlock.xpos, mainBlock.ypos);
                 }
 
                  // Check for collision between player and enemies
-                for (int i = 0; i < BadGuys.length; i = i + 1) {
-                    if (mainBlock.rec.intersects(BadGuys[i].rec)) {
+                for (int i = 0; i < badGuys.length; i = i + 1) {
+                    if (mainBlock.rec.intersects(badGuys[i].rec)) {
                         mainBlock.isAlive = false; // Player dies
                         gameEnd = true; // Game ends
-                        LoseSound.play(); // Play losing sound
+                        loseSound.play(); // Play losing sound
                     }
                 }
                 // Check for collision between player and coin
-                if (mainBlock.rec.intersects(Coin1.rec)) {
+                if (mainBlock.rec.intersects(coin1.rec)) {
                     int newrandomCoinXPos = (int) (Math.random() * 950); //move the coin
                     int newrandomCoinYpos = (int) (Math.random() * 650);
-                    Coin1 = new Coin(newrandomCoinXPos, newrandomCoinYpos);
-                    Coin1.pic = Toolkit.getDefaultToolkit().getImage("coin.png");
+                    coin1 = new Coin(newrandomCoinXPos, newrandomCoinYpos);
+                    coin1.pic = Toolkit.getDefaultToolkit().getImage("coin.png");
                     coinSpeed = coinSpeed + 1; // boost the speed of the player
                     coinCount++;
                     if (coinCount > 2) {
                         coinSpeed = 2;
                     }
-                    CoinSound.play();
+                    coinSound.play();
 
                 }
 
@@ -218,7 +216,7 @@ public class BasicGameApp implements Runnable, KeyListener {
 
         // Start screen
         if (gameStart == false) {
-            g.drawImage(StartScreen, 0, 0, WIDTH, HEIGHT, null);
+            g.drawImage(startScreen, 0, 0, WIDTH, HEIGHT, null);
             g.setColor(new Color(164, 176, 245));
             g.setFont(new Font("Arial", Font.BOLD, 22));
             g.drawString("Welcome to Tail Chaser!", 370, 315);
@@ -234,7 +232,7 @@ public class BasicGameApp implements Runnable, KeyListener {
             if (score == 0) {
                 score = blockNum + (100 * loopNum); // Calculate final score
             }
-            g.drawImage(StartScreen, 0, 0, WIDTH, HEIGHT, null);
+            g.drawImage(startScreen, 0, 0, WIDTH, HEIGHT, null);
             g.setColor(new Color(164, 176, 245));
             g.setFont(new Font("Arial", Font.BOLD, 25));
             g.drawString("Game Over!", 384, 320);
@@ -269,12 +267,12 @@ public class BasicGameApp implements Runnable, KeyListener {
                 }
 
                 // Draw enemies
-                for (int i = 0; i < BadGuys.length; i = i + 1) {
-                    g.drawImage(BadGuys[i].pic, BadGuys[i].xpos, BadGuys[i].ypos, BadGuys[i].width, BadGuys[i].height, null);
+                for (int i = 0; i < badGuys.length; i = i + 1) {
+                    g.drawImage(badGuys[i].pic, badGuys[i].xpos, badGuys[i].ypos, badGuys[i].width, badGuys[i].height, null);
                 }
 
                 // Draw coin
-                g.drawImage(Coin1.pic, Coin1.xpos, Coin1.ypos, Coin1.width, Coin1.height, null);
+                g.drawImage(coin1.pic, coin1.xpos, coin1.ypos, coin1.width, coin1.height, null);
 
                 // Draw score
                 g.setColor(new Color(186, 43, 43));
@@ -412,16 +410,16 @@ public class BasicGameApp implements Runnable, KeyListener {
         if (keyCode == 32 && gameEnd == true){ // If space key is pressed after the game ends
 
             // Reset and re-randomize all bad guys
-            for (int i = 0; i < BadGuys.length; i = i + 1) {
+            for (int i = 0; i < badGuys.length; i = i + 1) {
                 int randomBadXPOS = (int) (Math.random() * 950);
                 int randomBadYPOS = (int) (Math.random() * 650);
-                BadGuys[i] = new BadGuy(randomBadXPOS, randomBadYPOS);
+                badGuys[i] = new BadGuy(randomBadXPOS, randomBadYPOS);
 
             }
 
             // Reload bad guys
-            for (int i = 0; i < BadGuys.length; i = i + 1) {
-                BadGuys[i].pic = Toolkit.getDefaultToolkit().getImage("BadGuy.png");
+            for (int i = 0; i < badGuys.length; i = i + 1) {
+                badGuys[i].pic = Toolkit.getDefaultToolkit().getImage("BadGuy.png");
             }
 
             // Reset trail positions

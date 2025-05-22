@@ -13,7 +13,6 @@ public class BlueBlock {
     public int dx = 0; // the speed of the block in the x direction
     public int dy = 0; // the speed of the block in the y direction
     public Rectangle rec; // A rectangle used for collision detection
-    public Color color; // The color of the block
 
 
 
@@ -22,7 +21,7 @@ public class BlueBlock {
     public boolean down; // True if the block is moving down
     public boolean left; // True if the block is moving left
     public boolean right; // True if the block is moving right
-    public int xposOld,yposOld; // Previous position values, used for trail or undoing moves
+    public int xposOld, yposOld; // Previous position values, used for trail or undoing moves
 
 
     // Constructor, called when a BlueBlock object is created
