@@ -14,7 +14,6 @@ public class BadGuy {
     public int dx = 0; //the speed of the BadGuy in the x direction
     public int dy = 0; //the speed of the BadGuy in the y direction
     public Rectangle rec; // Rectangle used for collision detection
-    int positionConfusion = (int)((Math.random()*2)-2); // These random integers are used to define where on the x-axis the tomatoes and flowers will appear on the screen
 
 
     public BadGuy(int pXpos, int pYpos) {
@@ -32,6 +31,15 @@ public class BadGuy {
     } // constructor
 // Method to update the BadGuy's position based on a target
     public void BadMove(int MBXpos, int MBYpos) {
+
+        if (xpos < MBXpos) {
+            dx = Math.abs(dx);
+        } // move right if target is to right
+
+        else if (xpos >= MBXpos) {
+            dx = -1 * Math.abs(dx);
+        } // move left if target is to left
+
         if (xpos < 0) {
             dx = -dx;
         } // right/left bounce
@@ -40,13 +48,13 @@ public class BadGuy {
             dx = -dx;
         } // right/left bounce
 
-        else if (xpos < MBXpos) {
-            dx = Math.abs(dx) + positionConfusion;
-        } // move right if target is to right
+        if (ypos < MBYpos) {
+            dy = Math.abs(dy);
+        } // Move down if target is below
 
-        else if (xpos >= MBXpos) {
-            dx = -1 * Math.abs(dx);
-        } // move left if target is to left
+        else if (ypos >= MBYpos) {
+            dy = -1 * Math.abs(dy);
+        } // Move up if target is above
 
         if (ypos < 0) {
             dy = -dy;
@@ -56,13 +64,6 @@ public class BadGuy {
             dy = -dy;
         } // bottom edge of screen bounce
 
-        else if (ypos < MBYpos) {
-            dy = Math.abs(dy);
-        } // Move down if target is below
-
-        else if (ypos >= MBYpos) {
-            dy = -1 * Math.abs(dy);
-        } // Move up if target is above
 
         // Update position based on speed
         xpos = xpos + dx;

@@ -101,6 +101,8 @@ public class BasicGameApp implements Runnable, KeyListener {
         int newrandomCoinXPos = (int) (Math.random() * 950); // create a coin
         int newrandomCoinYpos = (int) (Math.random() * 650);
         Coin1 = new Coin(newrandomCoinXPos, newrandomCoinYpos);
+        Coin1.pic = Toolkit.getDefaultToolkit().getImage("coin.png");
+
 
 // Fill in trail with BlueBlocks off screen initially
         for (int i = 0; i < trail.length; i = i + 1) {
@@ -166,8 +168,8 @@ public class BasicGameApp implements Runnable, KeyListener {
                     Coin1.pic = Toolkit.getDefaultToolkit().getImage("coin.png");
                     coinSpeed = coinSpeed + 1; // boost the speed of the player
                     coinCount++;
-                    if (coinCount >=3) {
-                        coinSpeed = 0;
+                    if (coinCount > 2) {
+                        coinSpeed = 2;
                     }
                     CoinSound.play();
 
